@@ -18,11 +18,19 @@ extern exit
 extern abrirarquivo
 extern lerdados
 
-
 extern malloc
 extern free
 extern printf
 ;extern puts
+
+extern criarsocket
+extern sockarserver
+extern htons
+extern bindar
+extern escutar
+extern conexao
+
+PORT equ 8081
 
 teste:
 	db `Valor do tmpend é %p\n`, 0
@@ -91,6 +99,16 @@ main:
 	mov rsi, 0
  	mov rdx, 0
 	call eprintf
+
+	call criarsocket
+	
+	call sockarserver
+
+	call bindar
+	
+	call escutar
+	
+	call conexao
 
 	call exit
 
