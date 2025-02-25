@@ -76,3 +76,15 @@ conexao_deu_bom:
 global conexao_deu_ruim
 conexao_deu_ruim:
 	db `VISH\n`, 0
+
+global htmlheader
+htmlheader:
+	db `HTTP/1.1 %d\r\n`, 0
+
+global htmlcontent
+htmlcontent:
+	db `Content-Type: text/html\r\n`, 0
+
+global linhavazia
+linhavazia:
+	db `\r\n`, 0

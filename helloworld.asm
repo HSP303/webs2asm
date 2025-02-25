@@ -8,6 +8,8 @@ extern minhas_frases
 extern formathell
 extern indexhtml
 extern lendoarquivo
+extern htmlheader
+extern passa_html
 
 extern print
 extern println
@@ -17,6 +19,7 @@ extern deallocate
 extern exit
 extern abrirarquivo
 extern lerdados
+extern strlen
 
 extern malloc
 extern free
@@ -29,8 +32,10 @@ extern htons
 extern bindar
 extern escutar
 extern conexao
+extern formatastring
+extern fecha
 
-PORT equ 8081
+PORT equ 8080
 
 teste:
 	db `Valor do tmpend é %p\n`, 0
@@ -94,11 +99,18 @@ main:
 	mov rsi, 1023
 	mov rdx, [arquivoaberto]
 	call lerdados
-	
+
+        mov rsi, [tmpend]
+        call strlen
+
+	mov [tmpendlen], rax	
+
 	mov rdi, [tmpend]
 	mov rsi, 0
  	mov rdx, 0
 	call eprintf
+
+	
 
 	call criarsocket
 	
@@ -109,6 +121,12 @@ main:
 	call escutar
 	
 	call conexao
+	
+	mov rdi, [tmpend]
+	mov rsi, [tmpendlen]	
+	call passa_html
+
+	call fecha
 
 	call exit
 
@@ -116,6 +134,9 @@ section .data
 
 tmpend:
         dq 0
+
+tmpendlen:
+	dq 0
 
 arquivoaberto:
 	dq 0

@@ -8,6 +8,7 @@ extern malloc
 extern free
 extern fopen
 extern fread
+extern sprintf
 
 SYSCALL_WRITE equ 1
 SYSCALL_EXIT equ 60
@@ -28,6 +29,10 @@ eprintf:
 	call printf
 	pop rbp
 	ret
+
+global formatastring
+formatastring:
+	call sprintf
 
 global allocate
 allocate:

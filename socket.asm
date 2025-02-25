@@ -25,6 +25,7 @@ PORT equ 8081
 SYSCALL_BIND equ 49
 SYSCALL_LISTEN equ 50
 SYSCALL_ACCEPT equ 43
+SYSCALL_CLOSE equ 3
 
 struc sockaddr_in
 	sin_family resb 2
@@ -185,13 +186,13 @@ global conexao
 conexao:
 	mov rdi, [serverfd]
 	mov rsi, address
-	mov rdx, [addrlen]
+	mov rdx, addrlen
 	mov rax, SYSCALL_ACCEPT
 	syscall
 	mov [clientfd], eax
 
         test rax, rax
-        jnl conexao_deuruim
+        jl conexao_deuruim
 
 conexao_deubom:
         mov rdi, conexao_deu_bom
@@ -208,3 +209,14 @@ conexao_deuruim:
         mov rax, SYSCALL_EXIT
         mov rdi, 9999
         syscall
+
+global fecha
+fecha:
+	mov rdi, [clientfd]
+	mov rax, SYSCALL_CLOSE
+	syscall
+
+	mov rdi, [serverfd]
+	mov rax, SYSCALL_CLOSE
+	syscall
+	ret
